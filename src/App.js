@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import WeatherWidget from "./weather";
+
+function shuffle() {
+  const cityList = ["Łódź", "Warsaw", "Berlin", "New York", "London"];
+  var randomCities = [];
+  var randomIndex = 0;
+  var currentIndex = 5;
+  var city = "";
+
+  while (randomCities.length < 3) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    city = cityList[randomIndex];
+    if (randomCities.indexOf(city) < 0) randomCities.push(cityList[randomIndex]);
+  }
+  console.log(randomCities);
+  return randomCities;
+}
 
 function App() {
+  const [cities, setCities] = useState(() => {
+    return shuffle();
+  });
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCities(shuffle());
+  //   }, 60000);
+  //   return () => clearInterval(interval);
+  // }, []);
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      <WeatherWidget city={cities[0]} />
+      <WeatherWidget city={cities[1]} />
+      <WeatherWidget city={cities[2]} />
+    </main>
   );
 }
 
